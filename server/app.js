@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 3500;
 
@@ -24,6 +23,7 @@ app.use(cors());
 app.use("/auth", require("./routes/authRoutes"));
 app.use("/tasks", require("./routes/taskRoutes"));
 app.use("/refresh", require("./routes/refreshRoutes"));
+app.use("/logout", require("./routes/logoutRoutes"));
 
 //log successful db connection
 mongoose.connection.once("open", () => {
