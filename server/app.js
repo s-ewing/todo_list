@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
@@ -15,16 +15,15 @@ const app = express();
 connectDB();
 
 //middleware
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
 //routes
-app.use("/auth", require("./routes/authRoutes"))
-app.use("/tasks", require("./routes/taskRoutes"))
-
-
+app.use("/auth", require("./routes/authRoutes"));
+app.use("/tasks", require("./routes/taskRoutes"));
+app.use("/refresh", require("./routes/refreshRoutes"));
 
 //log successful db connection
 mongoose.connection.once("open", () => {
@@ -33,6 +32,6 @@ mongoose.connection.once("open", () => {
 });
 
 //log error if connection to db fails
-mongoose.connection.on("error", err => {
-    console.log(err);
-})
+mongoose.connection.on("error", (err) => {
+  console.log(err);
+});

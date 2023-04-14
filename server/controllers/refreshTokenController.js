@@ -25,7 +25,7 @@ const handleRefreshToken = async (req, res) => {
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
       (err, decodedToken) => {
-        if (err || foundUser._id !== decodedToken.userId) {
+        if (err || foundUser._id.toString() !== decodedToken.userId) {
           res.sendStatus(403);
           return;
         }
@@ -33,11 +33,10 @@ const handleRefreshToken = async (req, res) => {
         res.status(200).json({ accessToken });
       }
     );
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-module.exports = handleRefreshToken;
+module.exports = { handleRefreshToken };
