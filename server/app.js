@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const { logger } = require("./middleware/logger");
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 3500;
 
@@ -14,6 +15,7 @@ const app = express();
 connectDB();
 
 //middleware
+app.use(logger);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
