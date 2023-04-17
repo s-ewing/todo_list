@@ -7,7 +7,7 @@ const errorHandler = (err, req, res) => {
   //Log error
   logEvent(
     `${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.url}\t${origin}`,
-    "errorLog"
+    "errorLog.log"
   );
   console.log(err.stack);
 
