@@ -8,7 +8,6 @@ const connectDB = async () => {
     try {
       await mongoose.connect(uri);
       console.log("Connected to in-memory MongoDB");
-      console.log(uri);
     } catch (err) {
       console.error(err);
     }
