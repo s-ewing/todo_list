@@ -32,9 +32,7 @@ const createNewUser = async (req, res, next) => {
     //Send response based on success/failure of user creation
     if (user) {
       res.status(201).json({ message: "New account created" });
-    } else {
-      res.status(400).json({ message: "Invalid email or password" });
-    }
+    } 
   } catch (err) {
     next(err);
   }
