@@ -8,6 +8,7 @@ const connectDB = async () => {
     try {
       await mongoose.connect(uri);
       console.log("Connected to in-memory MongoDB");
+      console.log(uri);
     } catch (err) {
       console.error(err);
     }
@@ -20,4 +21,8 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB;
+const disconnectDB = () => {
+  mongoose.disconnect();
+}
+
+module.exports = { connectDB, disconnectDB }
