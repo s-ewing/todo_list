@@ -1,6 +1,6 @@
 const User = require("../models/User");
 
-const handleLogout = async (req, res) => {
+const handleLogout = async (req, res, next) => {
   //make sure to delete access token on client!
   const cookies = req.cookies;
 
@@ -27,8 +27,7 @@ const handleLogout = async (req, res) => {
     res.clearCookie("refresh_token", { httpOnly: true });
     res.sendStatus(204);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 

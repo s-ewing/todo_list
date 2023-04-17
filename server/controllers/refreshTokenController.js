@@ -2,7 +2,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { generateAccessToken } = require("../utils/token.js");
 
-const handleRefreshToken = async (req, res) => {
+const handleRefreshToken = async (req, res, next) => {
   const cookies = req.cookies;
 
   //check for refresh token in cookies
@@ -34,8 +34,7 @@ const handleRefreshToken = async (req, res) => {
       }
     );
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 

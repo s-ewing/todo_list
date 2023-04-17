@@ -1,6 +1,6 @@
 const Task = require("../models/Task");
 
-const createNewTask = async (req, res) => {
+const createNewTask = async (req, res, next) => {
   const { title, description } = req.body;
   const userId = req.userId;
 
@@ -22,24 +22,22 @@ const createNewTask = async (req, res) => {
       res.status(400).json({ message: "Invalid title or description" });
     }
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
-const getTasksByUserId = async (req, res) => {
+const getTasksByUserId = async (req, res, next) => {
   const userId = req.userId;
 
   try {
     const tasks = await Task.find({ userId });
     res.status(200).json(tasks);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
-const updateTask = async (req, res) => {
+const updateTask = async (req, res, next) => {
   const taskId = req.params.taskId;
   const userId = req.userId;
   const { title, description, status } = req.body;
@@ -67,12 +65,11 @@ const updateTask = async (req, res) => {
 
     res.status(200).json(updatedTask);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
-const deleteTask = async (req, res) => {
+const deleteTask = async (req, res, next) => {
   const taskId = req.params.taskId;
   const userId = req.userId;
 
@@ -83,8 +80,7 @@ const deleteTask = async (req, res) => {
     }
     res.status(200).json({ message: "Task deleted" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 

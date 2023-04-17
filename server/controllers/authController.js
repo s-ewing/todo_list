@@ -2,7 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const { generateAccessToken, generateRefreshToken } = require("../utils/token");
 
-const createNewUser = async (req, res) => {
+const createNewUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   //Confirm data
@@ -36,12 +36,11 @@ const createNewUser = async (req, res) => {
       res.status(400).json({ message: "Invalid email or password" });
     }
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
-const handleLogin = async (req, res) => {
+const handleLogin = async (req, res, next)  => {
   const { email, password } = req.body;
 
   //Confirm data
@@ -85,8 +84,7 @@ const handleLogin = async (req, res) => {
     res.status(200).json({ accessToken });
 
   } catch (err) {
-    console.log(err.message);
-    res.status(500).json({ message: "Server error" });
+    next(err);
   }
 };
 
