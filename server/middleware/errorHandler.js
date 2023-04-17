@@ -1,6 +1,6 @@
 const { logEvent } = require("../utils/log");
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res) => {
   //Check for origin
   const origin = req.headers.origin ? req.headers.origin : "";
 
