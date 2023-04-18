@@ -1,7 +1,7 @@
 const request = require("supertest");
 const { app } = require("../app");
-const User = require("../models/User");
 const { connectDB, disconnectDB } = require("../config/db");
+const User = require("../models/User");
 const { createNewUser, handleLogin } = require("../controllers/authController");
 
 beforeAll(() => {
@@ -11,8 +11,6 @@ beforeAll(() => {
 afterAll(() => {
   disconnectDB();
 });
-
-afterAll(() => {});
 
 describe("createNewUser", () => {
   it("should respond with status 400 if email is missing", async () => {
@@ -56,7 +54,7 @@ describe("createNewUser", () => {
 
     //stub res and next
     const res = {
-      status: jest.fn(() => res),
+      status: jest.fn(),
       json: jest.fn(),
     };
     const next = jest.fn();
