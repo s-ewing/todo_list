@@ -42,10 +42,10 @@ const updateTask = async (req, res, next) => {
   const userId = req.userId;
   const { title, description, status } = req.body;
 
-  if (!title || !description) {
+  if (!title) {
     res
       .status(400)
-      .message({ json: "Task title and description are required" });
+      .message({ json: "Task title is required" });
     return;
   }
 
