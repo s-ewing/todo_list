@@ -45,7 +45,7 @@ const updateTask = async (req, res, next) => {
   if (!title) {
     res
       .status(400)
-      .message({ json: "Task title is required" });
+      .json({ message: "Task title is required" });
     return;
   }
 
