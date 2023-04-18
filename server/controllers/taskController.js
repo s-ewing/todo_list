@@ -5,10 +5,10 @@ const createNewTask = async (req, res, next) => {
   const userId = req.userId;
 
   //Confirm data
-  if (!title || !description) {
+  if (!title) {
     res
       .status(400)
-      .json({ message: "Task title and description are required" });
+      .json({ message: "Task title is required" });
     return;
   }
   try {
