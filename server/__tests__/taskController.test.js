@@ -1,4 +1,5 @@
 const request = require("supertest");
+const mongoose = require("mongoose");
 const { app } = require("../app");
 const { connectDB, disconnectDB } = require("../config/db");
 const Task = require("../models/Task");
@@ -79,15 +80,15 @@ describe("createNewTask", () => {
 });
 
 describe("getTaskByUserId", () => {
-  it("should return all tasks belonging to the user", async () => { 
+  it("should return all tasks belonging to the user", async () => {
     //One task should be saved in db from the createNewTask test
     const res = await request(app)
       .get("/tasks")
       .set("Authorization", `Bearer ${token}`);
 
-      expect(res.status).toBe(200);
-      expect(res.body).toHaveLength(1);
-      expect(res.body[0].title).toBe("test title");
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveLength(1);
+    expect(res.body[0].title).toBe("test title");
   });
 
   it("should call next with an error if task retrieval fails", async () => {
@@ -119,5 +120,87 @@ describe("getTaskByUserId", () => {
   });
 });
 
+describe("updateTask", () => {
+  it("should respond with status 400 if title is missing", async () => {
+    const task = await Task.findOne({ title: "test title" });
+    const res = await request(app)
+      .put(`/tasks/${task._id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        title: "",
+        description: "test description",
+        status: "incomplete",
+      });
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe("Task title is required");
+  });
 
+  it("should respond with status 404 if taskId path parameter is invalid", async () => {
+    const objectId = new mongoose.Types.ObjectId();
+    const res = await request(app)
+      .put(`/tasks/${objectId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        title: "new title",
+        description: "new description",
+        status: "complete",
+      });
 
+      expect(res.status).toBe(404)
+      expect(res.body.message).toBe("Task not found")
+  });
+
+  it("should call next with an error if task update fails", async () => {
+    const task = await Task.findOne({ title: "test title" });
+    const req = {
+      body: {
+        title: "new title",
+        description: "new description",
+        status: "complete",
+      },
+      params: { taskId: `${task._id}` },
+    };
+    const res = {
+      status: jest.fn(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+
+    const errorMessage = "Task update error";
+    const mockError = new Error(errorMessage);
+
+    //stub Task.findOneAndUpdate
+    const mockFindOneAndUpdate = jest.spyOn(Task, "findOneAndUpdate");
+    mockFindOneAndUpdate.mockImplementationOnce(() => {
+      throw mockError;
+    });
+
+    await updateTask(req, res, next);
+
+    expect(mockFindOneAndUpdate).toHaveBeenCalledTimes(1);
+    expect(res.status).not.toHaveBeenCalled();
+    expect(res.json).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(mockError);
+
+    //restore Task.create
+    mockFindOneAndUpdate.mockRestore();
+  });
+
+  it("should respond with status 200 if task is successfully updated", async () => {
+    const task = await Task.findOne({ title: "test title" });
+    const updatedTask = {
+      title: "new title",
+      description: "new description",
+      status: "complete",
+    };
+    const res = await request(app)
+      .put(`/tasks/${task._id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(updatedTask);
+
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe("new title");
+    expect(res.body.description).toBe("new description");
+    expect(res.body.status).toBe("complete");
+  });
+});
