@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/taskController");
-const verifyJwt = require("../middleware/verifyJWT");
+const verifyJwt = require("../middleware/verifyJwt");
 
 router.route("/").get(verifyJwt, taskController.getTasksByUserId);
 router.route("/").post(verifyJwt, taskController.createNewTask);
