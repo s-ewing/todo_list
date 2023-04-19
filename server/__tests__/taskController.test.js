@@ -204,3 +204,61 @@ describe("updateTask", () => {
     expect(res.body.status).toBe("complete");
   });
 });
+
+describe("deleteTask", () => {
+  it("should respond with status 404 if taskId path parameter is invalid", async () => {
+    const objectId = new mongoose.Types.ObjectId();
+    const res = await request(app)
+      .delete(`/tasks/${objectId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        title: "new title",
+        description: "new description",
+        status: "complete",
+      });
+
+      expect(res.status).toBe(404)
+      expect(res.body.message).toBe("Task not found")
+  });
+
+  it("should call next with an error if task deletion fails", async () => {
+    const task = await Task.findOne({ title: "new title" });
+    const req = {
+      params: { taskId: `${task._id}` },
+    };
+    const res = {
+      status: jest.fn(),
+      json: jest.fn(),
+    };
+    const next = jest.fn();
+
+    const errorMessage = "Task deletion error";
+    const mockError = new Error(errorMessage);
+
+    //stub Task.findOneAndDelete
+    const mockFindOneAndDelete = jest.spyOn(Task, "findOneAndDelete");
+    mockFindOneAndDelete.mockImplementationOnce(() => {
+      throw mockError;
+    });
+
+    await deleteTask(req, res, next);
+
+    expect(mockFindOneAndDelete).toHaveBeenCalledTimes(1);
+    expect(res.status).not.toHaveBeenCalled();
+    expect(res.json).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith(mockError);
+
+    //restore Task.create
+    mockFindOneAndDelete.mockRestore();
+  });
+
+  it("should respond with status 200 if task is successfully deleted", async () => {
+    const task = await Task.findOne({ title: "new title" });
+    const res = await request(app)
+      .delete(`/tasks/${task._id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send();
+    expect(res.status).toBe(200);
+    expect(res.body.message).toBe("Task deleted");
+  });
+})
