@@ -4,13 +4,13 @@ import Login from "./components/Auth/Login";
 import { Flex, Center } from "@chakra-ui/react";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [user, setUser] = useState(null);
 
   return (
     <div className="App">
       <Flex height="100vh">
         <Center width="100%">
-          <Login setUser={null}/>
+          {user ? <div>Logged in</div> : <Login setUser={setUser} />}
         </Center>
       </Flex>
     </div>
