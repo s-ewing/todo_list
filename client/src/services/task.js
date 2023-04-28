@@ -2,11 +2,11 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const getTasks = async (user) => {
+export const getTasks = async (accessToken) => {
     try {
         const res = await axios.get(`${API_URL}/tasks`, {
             headers: {
-                Authorization: `Bearer ${user}`
+                Authorization: `Bearer ${accessToken}`
             }
         });
         const tasks = res.data;

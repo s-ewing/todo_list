@@ -12,11 +12,13 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { login, register } from "../../services/auth";
+import useAuth from "../../hooks/useAuth";
 
-const Login = ({ setUser }) => {
+const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
+  const { setAuth } = useAuth();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +53,7 @@ const Login = ({ setUser }) => {
         formData.password
       );
       if (accessToken) {
-        setUser(accessToken);
+        setAuth({accessToken});
         setFormData({ email: "", password: "" })
         setError("");
       } else {
