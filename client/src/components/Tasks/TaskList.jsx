@@ -3,15 +3,17 @@ import { getTasks } from "../../services/task";
 import { List, Stack } from "@chakra-ui/react";
 import TaskItem from "./TaskItem";
 import useAuth from "../../hooks/useAuth";
+import useAxiosProtected from "../../hooks/useAxiosProtected";
 
 const TaskList = ({ user }) => {
+  const axiosProtected = useAxiosProtected();
   const [tasks, setTasks] = useState([]);
   const { auth } = useAuth();
 
   //get tasks for user
   useEffect(() => {
     const fetchTasks = async () => {
-      const tasks = await getTasks(auth.accessToken);
+      const tasks = await getTasks(axiosProtected, auth.accessToken);
       setTasks(tasks);
     };
     fetchTasks();

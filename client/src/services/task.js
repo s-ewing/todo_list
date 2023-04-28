@@ -1,10 +1,7 @@
-import { axiosProtected } from "../api/axios";
+export const getTasks = async (axios, accessToken) => {
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-export const getTasks = async (accessToken) => {
     try {
-        const res = await axiosProtected.get("/tasks", {
+        const res = await axios.get("/tasks", {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
