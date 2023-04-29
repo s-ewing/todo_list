@@ -7,7 +7,6 @@ const cors = require("cors");
 const { logger } = require("./middleware/logger");
 const { errorHandler } = require("./middleware/errorHandler");
 
-
 const app = express();
 
 //middleware
@@ -15,7 +14,12 @@ app.use(logger);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: [`http://127.0.0.1:5173`],
+    credentials: true,
+  })
+);
 
 //routes
 app.use("/auth", require("./routes/authRoutes"));
