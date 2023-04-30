@@ -17,7 +17,7 @@ const createNewTask = async (req, res, next) => {
 
     //Send response
     if (newTask) {
-      res.status(201).json({ message: "Task created" });
+      res.status(201).json(newTask);
     } else {
       res.status(400).json({ message: "Invalid title or description" });
     }
