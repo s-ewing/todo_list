@@ -24,18 +24,32 @@ const TaskDashboard = ({ user }) => {
   };
 
   const removeTask = (taskId) => {
-    const updatedTasks = tasks.filter(task => task._id !== taskId);
+    const updatedTasks = tasks.filter((task) => task._id !== taskId);
     setTasks(updatedTasks);
-  }
+  };
+
+  const toggleTaskStatus = (taskId) => {
+    const updatedTasks = tasks.map((task) => {
+      if (task._id === taskId) {
+        return {
+          ...task,
+          status: task.status === "incomplete" ? "complete" : "incomplete",
+        };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  };
 
   return (
     <Box>
-      <NewTaskModal
-        isOpen={isOpen}
-        onClose={onClose}
-        addTask={addTask}
+      <NewTaskModal isOpen={isOpen} onClose={onClose} addTask={addTask} />
+      <TaskList
+        tasks={tasks}
+        axios={axiosProtected}
+        removeTask={removeTask}
+        toggleTaskStatus={toggleTaskStatus}
       />
-      <TaskList tasks={tasks} axios={axiosProtected} removeTask={removeTask}/>
       <Button colorScheme="green" mt={6} onClick={onOpen}>
         Create Task
       </Button>
