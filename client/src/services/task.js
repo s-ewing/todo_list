@@ -19,3 +19,16 @@ export const createTask = async (axios, title, description) => {
     }
   }
 };
+
+export const deleteTask = async (axios, taskId) => {
+    try {
+        const res = await axios.delete(`/tasks/${taskId}`)
+        if (res.status === 200) {
+            return {status: 200, message: "Task deleted"};
+        } else {
+            return {status: 400, message: "Task not found"};
+        }
+    } catch (err) {
+        console.error(err);
+    }
+}

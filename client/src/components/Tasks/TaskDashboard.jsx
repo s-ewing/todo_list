@@ -23,6 +23,11 @@ const TaskDashboard = ({ user }) => {
     setTasks((prev) => [...prev, newTask]);
   };
 
+  const removeTask = (taskId) => {
+    const updatedTasks = tasks.filter(task => task._id !== taskId);
+    setTasks(updatedTasks);
+  }
+
   return (
     <Box>
       <NewTaskModal
@@ -30,7 +35,7 @@ const TaskDashboard = ({ user }) => {
         onClose={onClose}
         addTask={addTask}
       />
-      <TaskList tasks={tasks} />
+      <TaskList tasks={tasks} axios={axiosProtected} removeTask={removeTask}/>
       <Button colorScheme="green" mt={6} onClick={onOpen}>
         Create Task
       </Button>
