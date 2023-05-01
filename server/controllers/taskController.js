@@ -40,20 +40,13 @@ const getTasksByUserId = async (req, res, next) => {
 const updateTask = async (req, res, next) => {
   const taskId = req.params.taskId;
   const userId = req.userId;
-  const { title, description, status } = req.body;
-
-  if (!title) {
-    res
-      .status(400)
-      .json({ message: "Task title is required" });
-    return;
-  }
-
+  const { status } = req.body;
+  const newStatus = status === "incomplete" ? "complete" : "incomplete";
   try {
     //update task and return updated task
     const updatedTask = await Task.findOneAndUpdate(
       { _id: taskId, userId },
-      { title, description, status },
+      { status: newStatus },
       {
         new: true,
       }
