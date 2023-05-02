@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { getTasks } from "../../services/task";
 import useAxiosProtected from "../../hooks/useAxiosProtected";
 import { Button, Box, useDisclosure } from "@chakra-ui/react";
+import useLogout from "../../hooks/useLogout";
 
 const TaskDashboard = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tasks, setTasks] = useState([]);
   const axiosProtected = useAxiosProtected();
+  const logout = useLogout();
 
   //get tasks for user
   useEffect(() => {
@@ -53,6 +55,7 @@ const TaskDashboard = ({ user }) => {
       <Button colorScheme="green" mt={6} onClick={onOpen}>
         Create Task
       </Button>
+      <Button colorScheme="blue" mt={6} onClick={logout}>Sign Out</Button>
     </Box>
   );
 };

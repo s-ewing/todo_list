@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -10,6 +10,7 @@ import {
   Stack,
   Heading,
   Link,
+  Checkbox
 } from "@chakra-ui/react";
 import { login, register } from "../../services/auth";
 import useAuth from "../../hooks/useAuth";
@@ -18,7 +19,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
-  const { setAuth } = useAuth();
+  const { setAuth, persist, setPersist } = useAuth();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,6 +64,14 @@ const Login = () => {
       setError("Invalid email or password");
     }
   };
+
+  const togglePersist = () => {
+    setPersist(prev => !prev);
+  }
+
+  useEffect(() => {
+    localStorage.setItem("persist", persist);
+  }, [persist])
 
   return (
     <Box bg="green.200" border="1px solid" borderRadius="lg" p={8} w="500px">
@@ -132,6 +141,9 @@ const Login = () => {
               Log In
             </Button>
           )}
+          <Checkbox isChecked={persist} onChange={togglePersist}>
+            Trust This Device
+          </Checkbox>
         </Stack>
       </form>
     </Box>

@@ -2,13 +2,14 @@ import "./App.css";
 import Login from "./components/Auth/Login";
 import TaskDashboard from "./components/Tasks/TaskDashboard";
 import useAuth from "./hooks/useAuth";
-import { Flex, Center } from "@chakra-ui/react";
+import { Flex, Center, Text } from "@chakra-ui/react";
 import useRefreshToken from "./hooks/useRefreshToken";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-  const { auth, setAuth } = useAuth();
+  const { auth, persist } = useAuth();
   const refresh = useRefreshToken();
+  const [isLoading, setIsLoading] = useState(true);
 
   //persist login if refresh token is valid
   useEffect(() => {
@@ -17,10 +18,14 @@ function App() {
         await refresh();
       } catch (err) {
         console.error(err);
+      } finally {
+        setIsLoading(false);
       }
     };
-    if (!auth?.accessToken) {
+    if (!auth?.accessToken && persist) {
       verifyRefreshToken();
+    } else {
+      setIsLoading(false);
     }
   }, []);
 
@@ -28,7 +33,13 @@ function App() {
     <div className="App">
       <Flex height="100vh">
         <Center width="100%">
-          {auth.accessToken ? <TaskDashboard /> : <Login />}
+          {isLoading ? (
+            <Text fontSize="5xl">Loading...</Text>
+          ) : auth.accessToken ? (
+            <TaskDashboard />
+          ) : (
+            <Login />
+          )}
         </Center>
       </Flex>
     </div>
