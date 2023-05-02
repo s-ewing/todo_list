@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { logger } = require("./middleware/logger");
 const { errorHandler } = require("./middleware/errorHandler");
-const { credentials } = require("./middleware/credentials");
 
 const app = express();
 
@@ -15,10 +14,9 @@ app.use(logger);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(credentials);
 app.use(
   cors({
-    origin: [`http://127.0.0.1:5173`],
+    origin: [`http://127.0.0.1:5173`, `http://localhost:3501`],
     credentials: true,
   })
 );
