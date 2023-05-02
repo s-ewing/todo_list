@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const login = async (email, password) => {
   try {
-    const res = await axios.post("/auth/login", { email, password });
+    const res = await axios.post("/api/auth/login", { email, password }, { withCredentials: true });
     const { accessToken } = res.data;
     return { accessToken: accessToken, message: "Login successful" };
   } catch (err) {
@@ -18,7 +18,7 @@ export const login = async (email, password) => {
 
 export const register = async (email, password) => {
   try {
-    const res = await axios.post("/auth/register", {
+    const res = await axios.post("/api/auth/register", {
       email,
       password,
     });
