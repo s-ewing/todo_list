@@ -14,7 +14,7 @@ const NewTaskModal = ({ isOpen, onClose, addTask }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="cyan.100">
           <ModalHeader>Create New Task</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

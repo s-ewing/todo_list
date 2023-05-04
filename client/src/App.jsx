@@ -31,7 +31,7 @@ function App() {
 
   return (
     <div className="App">
-      <Flex height="100vh" bg="whiteAlpha.500">
+      <Flex height="100vh" bg="teal.900">
         <Center width="100%">
           {isLoading ? (
             <Text fontSize="5xl">Loading...</Text>

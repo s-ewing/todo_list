@@ -67,7 +67,7 @@ const LoginForm = ({ onOpen }) => {
           {error}
         </Alert>
       )}
-      <form>
+      <form onSubmit={handleLogin}>
         <Stack spacing={4}>
           <FormControl id="email" isRequired>
             <FormLabel requiredIndicator>Email</FormLabel>
@@ -96,7 +96,6 @@ const LoginForm = ({ onOpen }) => {
             colorScheme="teal"
             size="lg"
             mt={4}
-            onClick={handleLogin}
           >
             Log In
           </Button>

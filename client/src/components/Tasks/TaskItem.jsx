@@ -5,6 +5,7 @@ import {
   Box,
   Stack,
   IconButton,
+  Divider
 } from "@chakra-ui/react";
 import { DeleteIcon, CheckIcon } from "@chakra-ui/icons";
 import { deleteTask, updateTask } from "../../services/task";
@@ -24,8 +25,10 @@ const TaskItem = ({ task, removeTask, toggleTaskStatus, axios }) => {
   };
 
   const handleStatusToggle = async (taskId, status) => {
+    console.log(status);
     try {
       const newStatus = status === "incomplete" ? "complete" : "incomplete";
+      console.log(newStatus)
       const res = await updateTask(axios, taskId, newStatus);
       if (res.updatedTask) {
         toggleTaskStatus(taskId);
@@ -36,20 +39,21 @@ const TaskItem = ({ task, removeTask, toggleTaskStatus, axios }) => {
   };
   return (
     <ListItem>
-      <HStack spacing={8}>
+      <HStack spacing={4}>
         <Stack spacing={2}>
-          <IconButton onClick={() => handleStatusToggle(task._id, task.status)}>
-            <CheckIcon />
+          <IconButton onClick={() => handleStatusToggle(task._id, task.status)} bg="green.400" boxSize={5}>
+            <CheckIcon boxSize={3} color="whiteAlpha.900"/>
           </IconButton>
-          <IconButton onClick={() => handleDeleteTask(task._id)}>
-            <DeleteIcon />
+          <IconButton onClick={() => handleDeleteTask(task._id)} bg="red.400" boxSize={5}>
+            <DeleteIcon boxSize={3} color="whiteAlpha.900"/>
           </IconButton>
         </Stack>
         <Box>
-          <Text fontSize="2xl">{task.title}</Text>
-          <Text fontSize="md">{task.description}</Text>
+          <Text fontSize="xl" textDecor={task.status === "complete" ? "line-through" : "none"}>{task.title}</Text>
+          <Text fontSize="sm" textDecor={task.status === "complete" ? "line-through" : "none"}>{task.description}</Text>
         </Box>
       </HStack>
+      <Divider my={1} />
     </ListItem>
   );
 };

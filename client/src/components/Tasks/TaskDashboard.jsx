@@ -3,7 +3,14 @@ import NewTaskModal from "./NewTaskModal";
 import { useState, useEffect } from "react";
 import { getTasks } from "../../services/task";
 import useAxiosProtected from "../../hooks/useAxiosProtected";
-import { Button, Box, useDisclosure } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  HStack,
+  Box,
+  useDisclosure,
+  Spacer,
+} from "@chakra-ui/react";
 import useLogout from "../../hooks/useLogout";
 
 const TaskDashboard = ({ user }) => {
@@ -44,18 +51,25 @@ const TaskDashboard = ({ user }) => {
   };
 
   return (
-    <Box>
-      <NewTaskModal isOpen={isOpen} onClose={onClose} addTask={addTask} />
-      <TaskList
-        tasks={tasks}
-        axios={axiosProtected}
-        removeTask={removeTask}
-        toggleTaskStatus={toggleTaskStatus}
-      />
-      <Button colorScheme="green" mt={6} onClick={onOpen}>
-        Create Task
-      </Button>
-      <Button colorScheme="blue" mt={6} onClick={logout}>Sign Out</Button>
+    <Box h="95vh" w="95vw" p={8} border="3px solid" bg="cyan.100">
+      <Flex>
+          <Button colorScheme="cyan" onClick={onOpen} size="md" border="1px solid">
+            Create Task
+          </Button>
+        <Spacer />
+          <Button colorScheme="teal" onClick={logout} size="md" border="1px solid black">
+            Sign Out
+          </Button>
+      </Flex>
+      <Flex mt={7}>
+        <NewTaskModal isOpen={isOpen} onClose={onClose} addTask={addTask} />
+        <TaskList
+          tasks={tasks}
+          axios={axiosProtected}
+          removeTask={removeTask}
+          toggleTaskStatus={toggleTaskStatus}
+        />
+      </Flex>
     </Box>
   );
 };

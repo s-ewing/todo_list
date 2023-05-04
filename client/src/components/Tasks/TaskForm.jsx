@@ -47,7 +47,7 @@ const TaskForm = ({ onClose, addTask }) => {
   };
 
   return (
-    <Box p={6}>
+    <Box>
       {error && (
         <Alert status="error" mt={4}>
           <AlertIcon />
@@ -55,7 +55,7 @@ const TaskForm = ({ onClose, addTask }) => {
         </Alert>
       )}
       <form onSubmit={handleCreateTask}>
-        <Stack spacing={6}>
+        <Stack spacing={4} p={4} mb={3}>
           <FormControl isRequired>
             <FormLabel requiredIndicator>Title</FormLabel>
             <Input
@@ -63,6 +63,8 @@ const TaskForm = ({ onClose, addTask }) => {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
+              focusBorderColor="black"
+              border="1px solid"
             />
           </FormControl>
           <FormControl>
@@ -72,9 +74,11 @@ const TaskForm = ({ onClose, addTask }) => {
               name="description"
               value={formData.description}
               onChange={handleInputChange}
+              focusBorderColor="black"
+              border="1px solid"
             />
           </FormControl>
-          <Button type="submit" colorScheme="green" size="md">
+          <Button type="submit" colorScheme="teal" size="lg">
             Create Task
           </Button>
         </Stack>
