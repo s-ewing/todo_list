@@ -1,5 +1,5 @@
 import "./App.css";
-import Login from "./components/Auth/Login";
+import Main from "./components/Login/Main";
 import TaskDashboard from "./components/Tasks/TaskDashboard";
 import useAuth from "./hooks/useAuth";
 import { Flex, Center, Text } from "@chakra-ui/react";
@@ -31,14 +31,14 @@ function App() {
 
   return (
     <div className="App">
-      <Flex height="100vh">
+      <Flex height="100vh" bg="whiteAlpha.500">
         <Center width="100%">
           {isLoading ? (
             <Text fontSize="5xl">Loading...</Text>
           ) : auth.accessToken ? (
             <TaskDashboard />
           ) : (
-            <Login />
+            <Main />
           )}
         </Center>
       </Flex>
