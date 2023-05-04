@@ -41,12 +41,12 @@ const updateTask = async (req, res, next) => {
   const taskId = req.params.taskId;
   const userId = req.userId;
   const { status } = req.body;
-  const newStatus = status === "incomplete" ? "complete" : "incomplete";
+
   try {
     //update task and return updated task
     const updatedTask = await Task.findOneAndUpdate(
       { _id: taskId, userId },
-      { status: newStatus },
+      { status },
       {
         new: true,
       }
@@ -56,7 +56,6 @@ const updateTask = async (req, res, next) => {
       res.status(404).json({ message: "Task not found" });
       return;
     }
-
     res.status(200).json(updatedTask);
   } catch (err) {
     next(err);
