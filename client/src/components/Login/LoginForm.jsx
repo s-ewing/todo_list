@@ -59,8 +59,7 @@ const LoginForm = ({ onOpen }) => {
         Log In
       </Heading>
       <Text textAlign="center" fontSize="lg" mb={6} fontWeight="sm">
-        Need an account?{" "}
-        <Link onClick={() => onOpen()}>Click here</Link>.
+        Need an account? <Link onClick={() => onOpen()}>Click here</Link>.
       </Text>
       {error && (
         <Alert status="error" mt={4}>
@@ -70,8 +69,8 @@ const LoginForm = ({ onOpen }) => {
       )}
       <form>
         <Stack spacing={4}>
-          <FormControl id="email">
-            <FormLabel>Email</FormLabel>
+          <FormControl id="email" isRequired>
+            <FormLabel requiredIndicator>Email</FormLabel>
             <Input
               type="email"
               name="email"
@@ -81,8 +80,8 @@ const LoginForm = ({ onOpen }) => {
               border="1px solid"
             />
           </FormControl>
-          <FormControl id="password" mt={4}>
-            <FormLabel>Password</FormLabel>
+          <FormControl id="password" isRequired>
+            <FormLabel requiredIndicator>Password</FormLabel>
             <Input
               type="password"
               name="password"

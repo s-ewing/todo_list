@@ -58,8 +58,8 @@ const RegistrationForm = ({ onClose }) => {
       )}
       <form onSubmit={handleRegister}>
         <Stack spacing={4} p={4} mb={3}>
-          <FormControl id="email">
-            <FormLabel>Email</FormLabel>
+          <FormControl id="email" isRequired>
+            <FormLabel requiredIndicator>Email</FormLabel>
             <Input
               type="email"
               name="email"
@@ -69,8 +69,8 @@ const RegistrationForm = ({ onClose }) => {
               border="1px solid"
             />
           </FormControl>
-          <FormControl id="password" mt={4}>
-            <FormLabel>Password</FormLabel>
+          <FormControl id="password" isRequired>
+            <FormLabel requiredIndicator>Password</FormLabel>
             <Input
               type="password"
               name="password"
