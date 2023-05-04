@@ -19,6 +19,7 @@ const createNewUser = async (req, res, next) => {
       res
         .status(409)
         .json({ message: "An account with that email already exists" });
+        return;
     }
 
     //Hash password
