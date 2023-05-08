@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: [`http://localhost:3500`],
+    origin: [`http://localhost:3500`, `https://todo-app-ztr6.onrender.com/`],
     credentials: true,
   })
 );
