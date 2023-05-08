@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const path = require("path")
 const { logger } = require("./middleware/logger");
 const { errorHandler } = require("./middleware/errorHandler");
 
@@ -16,10 +17,14 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: [`http://127.0.0.1:5173`, `http://localhost:3500`],
+    origin: [`http://localhost:3500`],
     credentials: true,
   })
 );
+app.use(express.static("../client/dist"))
+app.get("/home", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "..", "client", "dist", "index.html"))
+})
 
 //routes
 app.use("/auth", require("./routes/authRoutes"));

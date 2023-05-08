@@ -7,7 +7,7 @@ const useLogout = () => {
   const logout = async () => {
     setAuth({}); //delete access token
     try {
-      const res = await axios.get("/api/logout", { withCredentials: true });
+      const res = await axios.get("/logout", { withCredentials: true });
     } catch (err) {
       console.error(err);
     }
